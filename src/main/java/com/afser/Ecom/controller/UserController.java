@@ -1,0 +1,24 @@
+package com.afser.Ecom.controller;
+
+import com.afser.Ecom.model.UserModel;
+import com.afser.Ecom.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+public class UserController {
+
+    @Autowired
+    private UserService service;
+
+    @GetMapping("/users")
+    public List<UserModel> getAllUsers(){
+    return service.getAllUsers();
+}
+    @PostMapping("/users")
+    public UserModel createUser(@RequestBody UserModel user){
+        return service.createUser(user);
+}
+}
