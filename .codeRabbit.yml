@@ -1,1 +1,35 @@
+language: "en"
 
+review:
+  level: "deep"
+  enable_inline: true
+  enable_summary: true
+  explain_code: true
+  auto_review_on_push: true
+
+rules:
+  backend_quality: true
+  detect_null_pointer: true
+  detect_memory_leaks: true
+  detect_concurrency_issues: true
+  spring_best_practices: true
+  validate_rest_endpoints: true
+  sql_injection_protection: true
+  check_transactional_usage: true
+  check_password_handling: true
+  check_jwt_security: true
+
+tests:
+  generate_unit_tests: true
+  generate_integration_tests: true
+  framework: "junit"
+
+ignore:
+  - "target/"
+  - ".idea/"
+  - ".mvn/"
+  - "*.log"
+  - "*.min.js"
+
+general_settings:
+  max_review_length: 7000
