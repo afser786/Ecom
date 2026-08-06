@@ -1,5 +1,6 @@
 package com.afser.Ecom.controller;
 
+import com.afser.Ecom.dto.UserResponse;
 import com.afser.Ecom.model.UserModel;
 import com.afser.Ecom.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ public class UserController {
     private UserService service;
 
     @GetMapping("/users")
-    public List<UserModel> getAllUsers(){
+    public List<UserResponse> getAllUsers(){
     return service.getAllUsers();
 }
     @PostMapping("/users")

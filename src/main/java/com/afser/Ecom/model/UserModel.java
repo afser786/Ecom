@@ -1,9 +1,12 @@
 package com.afser.Ecom.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
 
 @Data
 //@AllArgsConstructor
@@ -23,4 +26,10 @@ public class UserModel {
     @OneToOne(cascade = CascadeType.ALL , orphanRemoval = true)
     @JoinColumn(name="address_id", referencedColumnName = "id")
     private Address address;
+
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedAt;
 }
