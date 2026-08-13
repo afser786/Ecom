@@ -1,7 +1,9 @@
 package com.afser.Ecom.service;
 
 import com.afser.Ecom.dto.AddressDto;
+import com.afser.Ecom.dto.UserRequest;
 import com.afser.Ecom.dto.UserResponse;
+import com.afser.Ecom.model.Address;
 import com.afser.Ecom.model.UserModel;
 import com.afser.Ecom.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,22 @@ public class UserService {
         System.out.println(user);
         System.out.println("Role = " + user.getRole());
     return repo.save(user);
+    }
+
+    private void updateUserFromRequest(UserModel user, UserRequest request) {
+        user.setFirstName(request.getFirstName());
+        user.setLastName(request.getLastName());
+        user.setEmail(request.getEmail());
+        user.setPhone(request.getPhone());
+        if(request.getAddressDto() != null) {
+            Address address = new Address();
+            address.setStreet(request.getAddressDto().getStreet());
+            address.setCity(request.getAddressDto().getCity());
+            address.setState(request.getAddressDto().getState());
+            address.setCountry(request.getAddressDto().getCountry());
+            address.setZipCode(request.getAddressDto().getZipCode());
+            user.setAddress(address);
+        }
     }
 
     private UserResponse mapToUserResponse(UserModel user) {
