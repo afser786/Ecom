@@ -7,7 +7,9 @@ import com.afser.Ecom.repo.ProductRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
@@ -51,5 +53,25 @@ public class ProductService {
             Product savedProduct = repo.save(existingProduct);
             return mapToProductResponse(savedProduct);
         });
+    }
+
+    public List<ProductResponse> getProduct() {
+        return repo.findByActiveTrue().stream()
+                .map(this::mapToProductResponse)
+                .collect(Collectors.toList());
+    }
+
+    public boolean removeProduct(Long id) {
+        return repo.findById(id).map(product -> {
+            product.setActive(false);
+            repo.save(product);
+            return true;
+        }).orElse(false);
+    }
+
+    public List<ProductResponse> searchProduct(String keyword) {
+        return repo.searchProduct(keyword).stream()
+                .map(this::mapToProductResponse)
+                .collect(Collectors.toList());
     }
 }

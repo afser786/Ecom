@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class ProductController {
 
@@ -24,5 +26,18 @@ public class ProductController {
         return productService.updateProduct(request,id)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+    @GetMapping("/products")
+    public ResponseEntity<List<ProductResponse>> getProduct(){
+        return ResponseEntity.ok(productService.getProduct());
+    }
+    @DeleteMapping("/products/{id}")
+    public ResponseEntity<List<ProductResponse>> deleteProduct(@PathVariable Long id){
+        boolean isDeleted=productService.removeProduct(id);
+        return isDeleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+    }
+    @GetMapping("/products/search")
+    public ResponseEntity<List<ProductResponse>> findProduct(@RequestParam String keyword){
+        return ResponseEntity.ok(productService.searchProduct(keyword));
     }
 }
