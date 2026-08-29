@@ -13,12 +13,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class CartController {
 
-    @Autowired
-    private CartService cartService;
+    //@Autowired
+    private final CartService cartService;
+
+    public CartController(CartService cartService) {
+        this.cartService = cartService;
+    }
 
     @PostMapping("/cart")
-    public ResponseEntity<Void> addToCart(@RequestHeader ("X-UserID")String userId, @RequestBody CartItemRequest request){
-        cartService.addToCart(userId, request);
+    public ResponseEntity<String> addToCart(@RequestHeader("X-User-ID") String userId, @RequestBody CartItemRequest request){
+        if(!cartService.addToCart(userId, request)){
+            return ResponseEntity.badRequest().body("product out of stock or user not found");
+        }
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }
