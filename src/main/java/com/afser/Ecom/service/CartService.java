@@ -7,6 +7,7 @@ import com.afser.Ecom.model.UserModel;
 import com.afser.Ecom.repo.CartRepo;
 import com.afser.Ecom.repo.ProductRepo;
 import com.afser.Ecom.repo.UserRepo;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ import java.math.BigDecimal;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class CartService {
 
     //@Autowired
@@ -61,5 +63,22 @@ public class CartService {
            repo.save(cartItem);
        }
         return true;
+    }
+
+    public boolean deleteItemFromCart(String userId, Long productId) {
+        Optional<Product> productOpt=productRepo.findById(productId);
+        if(productOpt.isEmpty())
+            return false;
+
+        Optional<UserModel>userModel=userRepo.findById(Long.valueOf(userId));
+        if(userModel.isEmpty())
+            return false;
+
+        UserModel user = userModel.get();
+        Product product = productOpt.get();
+
+        repo.deleteByUserAndProduct(user, product);
+        return true;
+        //return false;
     }
 }
