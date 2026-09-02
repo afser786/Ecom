@@ -1,11 +1,14 @@
 package com.afser.Ecom.controller;
 
 import com.afser.Ecom.dto.CartItemRequest;
+import com.afser.Ecom.model.CartItem;
 import com.afser.Ecom.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class CartController {
@@ -28,5 +31,9 @@ public class CartController {
     public ResponseEntity<Void> removeFromCart(@RequestHeader("X-User-ID") String userId, @PathVariable Long productId) {
         boolean deleted = cartService.deleteItemFromCart(userId, productId);
         return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+    }
+    @GetMapping("/cart")
+    public ResponseEntity<List<CartItem>>getCartItem(@RequestHeader("X-User-ID") String userId){
+        return ResponseEntity.ok(cartService.getCart(userId));
     }
 }
