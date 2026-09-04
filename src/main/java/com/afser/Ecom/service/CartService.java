@@ -88,4 +88,9 @@ public class CartService {
                 .map(repo::findByUser)
                 .orElseGet(List::of);
     }
+
+    public void clearCart(String userId) {
+        userRepo.findById(Long.valueOf(userId))
+                .ifPresent(repo::deleteByUser);
+    }
 }
